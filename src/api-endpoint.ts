@@ -1,3 +1,5 @@
+export const HCAPTCHA_LOAD_FN_NAME: string = "_hcaptchaOnLoad" as const;
+
 interface Config {
 	reCaptchaCompat: boolean;
 	language: string;
@@ -11,12 +13,15 @@ interface Config {
 }
 type ComponentConfig = Partial<Config>;
 
+declare const window: Window &
+	typeof globalThis & {
+		[HCAPTCHA_LOAD_FN_NAME]: unknown;
+	};
+
 /**
  * Used to prevent loading api.js multiple times
  */
 export const SCRIPT_ID: string = "hcaptcha-api-script-id";
-
-export const HCAPTCHA_LOAD_FN_NAME: string = "_hcaptchaOnLoad";
 
 let resolveFn: (value?: unknown) => unknown;
 let rejectFn: (value?: unknown) => unknown;

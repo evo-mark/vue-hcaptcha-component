@@ -1,6 +1,11 @@
 import { h, defineComponent, onMounted, onUnmounted, ref, shallowRef } from "vue";
 import { loadApiEndpointIfNotAlready } from "./api-endpoint";
 
+declare const window: Window &
+	typeof globalThis & {
+		hcaptcha: unknown;
+	};
+
 export default defineComponent({
 	name: "hCaptcha",
 	props: {
