@@ -1,0 +1,95 @@
+interface Config {
+	reCaptchaCompat: boolean;
+	language: string;
+	sentry: boolean;
+	custom: boolean;
+	endpoint: string;
+	assethost: string;
+	imghost: string;
+	reportapi: string;
+	apiEndpoint: string;
+}
+type ComponentConfig = Partial<Config>;
+
+/**
+ * Used to prevent loading api.js multiple times
+ */
+export const SCRIPT_ID: string = "hcaptcha-api-script-id";
+
+export const HCAPTCHA_LOAD_FN_NAME: string = "_hcaptchaOnLoad";
+
+let resolveFn: (value?: unknown) => unknown;
+let rejectFn: (value?: unknown) => unknown;
+const promise = new Promise((resolve, reject) => {
+	resolveFn = resolve;
+	rejectFn = reject;
+});
+
+/**
+ * Async hcaptcha api.js loader.
+ *
+ * It makes sure `apiEndpoint` is loaded ONCE on the page despite calling this multiple times.
+ *
+ * Usage:
+ * 1. import hcaptchaScript from './hcaptcha-script';
+ * 2. when web component is mounted do:
+ *      loadApiEndpointIfNotAlready('apiEndpoint', ...)
+ *        .then(() => console.log('hcaptcha is loaded so it is safe to be used'))
+ *        .catch((err) => console.error('failed to load the hcaptcha', err));
+ *
+ */
+export function loadApiEndpointIfNotAlready(config: ComponentConfig): Promise<unknown> {
+	if (window.hcaptcha) {
+		// api.js is already present
+		resolveFn();
+		return promise;
+	}
+	if (document.getElementById(SCRIPT_ID)) {
+		// api.js was already requested
+		return promise;
+	}
+	// request api.js once
+	window[HCAPTCHA_LOAD_FN_NAME] = resolveFn;
+	const scriptSrc = getScriptSrc(config);
+	const script = document.createElement("script");
+	script.id = SCRIPT_ID;
+	if (scriptSrc) {
+		script.src = scriptSrc;
+	}
+	script.async = true;
+	script.defer = true;
+	script.onerror = (event) => {
+		// eslint-disable-next-line no-console
+		console.error("Failed to load api: " + scriptSrc, event);
+		rejectFn("Failed to load api.js");
+	};
+	document.head.appendChild(script);
+	return promise;
+}
+
+export function getScriptSrc(config: ComponentConfig) {
+	let scriptSrc = config.apiEndpoint;
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "render", "explicit");
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "onload", HCAPTCHA_LOAD_FN_NAME);
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "recaptchacompat", config.reCaptchaCompat === false ? "off" : null);
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "hl", config.language);
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "sentry", config.sentry);
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "custom", config.custom);
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "endpoint", config.endpoint);
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "assethost", config.assethost);
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "imghost", config.imghost);
+	scriptSrc = addQueryParamIfDefined(scriptSrc, "reportapi", config.reportapi);
+	return scriptSrc;
+}
+
+export function addQueryParamIfDefined(
+	url: string | undefined,
+	queryName: string,
+	queryValue: string | number | boolean | undefined | null,
+) {
+	if (url && queryValue) {
+		const link = url.includes("?") ? "&" : "?";
+		return url + link + queryName + "=" + encodeURIComponent(queryValue);
+	}
+	return url;
+}
