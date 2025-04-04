@@ -5,19 +5,26 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
     theme: {
         type: StringConstructor;
-        default: any;
+        default: string;
+        validator: (v: string) => boolean;
     };
     size: {
         type: StringConstructor;
-        default: any;
+        default: string;
+        validator: (v: string) => boolean;
     };
     tabindex: {
-        type: StringConstructor;
-        default: any;
+        type: (StringConstructor | NumberConstructor)[];
+        default: number;
     };
     language: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
+    };
+    orientation: {
+        type: StringConstructor;
+        default: string;
+        validator: (v: string) => boolean;
     };
     reCaptchaCompat: {
         type: BooleanConstructor;
@@ -25,11 +32,11 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
     challengeContainer: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     rqdata: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     sentry: {
         type: BooleanConstructor;
@@ -37,7 +44,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
     custom: {
         type: BooleanConstructor;
-        default: any;
+        default: undefined;
     };
     apiEndpoint: {
         type: StringConstructor;
@@ -45,46 +52,61 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
     endpoint: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     reportapi: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     assethost: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     imghost: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     tag: {
         type: StringConstructor;
         default: string;
     };
+    modelValue: {
+        type: StringConstructor;
+        default: string;
+    };
+    responseId: {
+        type: StringConstructor;
+        default: string;
+    };
 }>, () => import("vue").VNode<import("vue").RendererNode, import("vue").RendererElement, {
     [key: string]: any;
-}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("error" | "reset" | "expired" | "challenge-expired" | "opened" | "closed" | "executed" | "rendered" | "verify")[], "error" | "reset" | "expired" | "challenge-expired" | "opened" | "closed" | "executed" | "rendered" | "verify", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+}>, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, ("error" | "reset" | "expired" | "challenge-expired" | "opened" | "closed" | "executed" | "rendered" | "verify" | "update:model-value" | "update:response-id")[], "error" | "reset" | "expired" | "challenge-expired" | "opened" | "closed" | "executed" | "rendered" | "verify" | "update:model-value" | "update:response-id", import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
     sitekey: {
         type: StringConstructor;
         required: true;
     };
     theme: {
         type: StringConstructor;
-        default: any;
+        default: string;
+        validator: (v: string) => boolean;
     };
     size: {
         type: StringConstructor;
-        default: any;
+        default: string;
+        validator: (v: string) => boolean;
     };
     tabindex: {
-        type: StringConstructor;
-        default: any;
+        type: (StringConstructor | NumberConstructor)[];
+        default: number;
     };
     language: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
+    };
+    orientation: {
+        type: StringConstructor;
+        default: string;
+        validator: (v: string) => boolean;
     };
     reCaptchaCompat: {
         type: BooleanConstructor;
@@ -92,11 +114,11 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
     challengeContainer: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     rqdata: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     sentry: {
         type: BooleanConstructor;
@@ -104,7 +126,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
     custom: {
         type: BooleanConstructor;
-        default: any;
+        default: undefined;
     };
     apiEndpoint: {
         type: StringConstructor;
@@ -112,49 +134,62 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
     };
     endpoint: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     reportapi: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     assethost: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     imghost: {
         type: StringConstructor;
-        default: any;
+        default: undefined;
     };
     tag: {
         type: StringConstructor;
         default: string;
     };
+    modelValue: {
+        type: StringConstructor;
+        default: string;
+    };
+    responseId: {
+        type: StringConstructor;
+        default: string;
+    };
 }>> & Readonly<{
-    onError?: (...args: any[]) => any;
-    onReset?: (...args: any[]) => any;
-    onExpired?: (...args: any[]) => any;
-    "onChallenge-expired"?: (...args: any[]) => any;
-    onOpened?: (...args: any[]) => any;
-    onClosed?: (...args: any[]) => any;
-    onExecuted?: (...args: any[]) => any;
-    onRendered?: (...args: any[]) => any;
-    onVerify?: (...args: any[]) => any;
+    onError?: ((...args: any[]) => any) | undefined;
+    onReset?: ((...args: any[]) => any) | undefined;
+    onExpired?: ((...args: any[]) => any) | undefined;
+    "onChallenge-expired"?: ((...args: any[]) => any) | undefined;
+    onOpened?: ((...args: any[]) => any) | undefined;
+    onClosed?: ((...args: any[]) => any) | undefined;
+    onExecuted?: ((...args: any[]) => any) | undefined;
+    onRendered?: ((...args: any[]) => any) | undefined;
+    onVerify?: ((...args: any[]) => any) | undefined;
+    "onUpdate:model-value"?: ((...args: any[]) => any) | undefined;
+    "onUpdate:response-id"?: ((...args: any[]) => any) | undefined;
 }>, {
     tag: string;
     size: string;
-    tabindex: string;
+    tabindex: string | number;
+    orientation: string;
+    reCaptchaCompat: boolean;
+    language: string;
     sentry: boolean;
     custom: boolean;
     endpoint: string;
     assethost: string;
     imghost: string;
     reportapi: string;
+    apiEndpoint: string;
     theme: string;
-    language: string;
-    reCaptchaCompat: boolean;
     challengeContainer: string;
     rqdata: string;
-    apiEndpoint: string;
+    modelValue: string;
+    responseId: string;
 }, {}, {}, {}, string, import("vue").ComponentProvideOptions, true, {}, any>;
 export default _default;

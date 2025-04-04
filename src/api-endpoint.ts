@@ -1,4 +1,4 @@
-export const HCAPTCHA_LOAD_FN_NAME: string = "_hcaptchaOnLoad" as const;
+const HCAPTCHA_LOAD_FN_NAME: string = "_hcaptchaOnLoad" as const;
 
 interface Config {
 	reCaptchaCompat: boolean;
@@ -15,7 +15,7 @@ type ComponentConfig = Partial<Config>;
 
 declare const window: Window &
 	typeof globalThis & {
-		[HCAPTCHA_LOAD_FN_NAME]: unknown;
+		[HCAPTCHA_LOAD_FN_NAME: string]: unknown;
 	};
 
 /**
