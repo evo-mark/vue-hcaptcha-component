@@ -38,17 +38,3 @@ const onSubmit = async () => {
 	isLoading.value = false;
 };
 </script>
-
-<style>
-@import "tailwindcss";
-
-@theme {
-	--font-sans: "Roboto", "sans-serif";
-}
-
-#app {
-	min-height: 100dvh;
-	display: flex;
-	flex-flow: column;
-}
-</style>

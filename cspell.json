@@ -1,0 +1,27 @@
+{
+    "version": "0.2",
+    "ignorePaths": [
+        ".github/**/*",
+        ".gitignore",
+        "package.json"
+    ],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "hcaptcha",
+        "teardown",
+        "Vapor"
+    ],
+    "ignoreWords": [
+        "assethost",
+        "chalexpired",
+        "hcap",
+        "imghost",
+        "recaptchacompat",
+        "reportapi",
+        "roboto",
+        "rqdata",
+        "sitekey"
+    ],
+    "import": []
+}

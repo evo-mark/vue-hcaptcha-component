@@ -30,7 +30,7 @@
 		"demo": "pnpm --filter=demo run dev",
 		"demo:build": "pnpm --filter=demo run build",
 		"demo:preview": "pnpm --filter=demo run preview",
-		"demo:deploy": "gh-pages -d demo/dist",
+		"demo:deploy": "npm run demo:build && gh-pages -d demo/dist",
 		"prepublishOnly": "npm run build"
 	},
 	"exports": {

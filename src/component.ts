@@ -80,6 +80,10 @@ export default defineComponent({
 			type: String,
 			default: "div",
 		},
+		id: {
+			type: String,
+			default: "hcap-script",
+		},
 		modelValue: {
 			type: String,
 			default: "",
@@ -232,7 +236,7 @@ export default defineComponent({
 
 		return () =>
 			h(props.tag, {
-				id: "hcap-script",
+				id: props.id,
 				ref: el,
 			});
 	},
